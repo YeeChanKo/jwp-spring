@@ -22,8 +22,8 @@ public class Question {
 		this(0, writer, title, contents, new Date(), 0);
 	}
 
-	public Question(long questionId, String writer, String title, String contents, Date createdDate,
-			int countOfComment) {
+	public Question(long questionId, String writer, String title,
+			String contents, Date createdDate, int countOfComment) {
 		this.questionId = questionId;
 		this.writer = writer;
 		this.title = title;
@@ -38,6 +38,14 @@ public class Question {
 
 	public void setQuestionId(long questionId) {
 		this.questionId = questionId;
+	}
+
+	public String getWriter() {
+		return writer;
+	}
+
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
 
 	public String getTitle() {
@@ -56,26 +64,30 @@ public class Question {
 		this.contents = contents;
 	}
 
-	public String getWriter() {
-		return writer;
-	}
-
 	public Date getCreatedDate() {
 		return createdDate;
 	}
-	
-	public long getTimeFromCreateDate() {
-		return this.createdDate.getTime();
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	public int getCountOfComment() {
 		return countOfComment;
 	}
-	
+
+	public void setCountOfComment(int countOfComment) {
+		this.countOfComment = countOfComment;
+	}
+
+	public long getTimeFromCreateDate() {
+		return this.createdDate.getTime();
+	}
+
 	public Question newQuestion(User user) {
 		return new Question(user.getUserId(), title, contents);
 	}
-	
+
 	public boolean isSameUser(User user) {
 		return user.isSameUser(this.writer);
 	}
@@ -87,8 +99,10 @@ public class Question {
 
 	@Override
 	public String toString() {
-		return "Question [questionId=" + questionId + ", writer=" + writer + ", title=" + title + ", contents="
-				+ contents + ", createdDate=" + createdDate + ", countOfComment=" + countOfComment + "]";
+		return "Question [questionId=" + questionId + ", writer=" + writer
+				+ ", title=" + title + ", contents=" + contents
+				+ ", createdDate=" + createdDate + ", countOfComment="
+				+ countOfComment + "]";
 	}
 
 	@Override
