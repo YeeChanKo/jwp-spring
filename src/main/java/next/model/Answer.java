@@ -2,6 +2,8 @@ package next.model;
 
 import java.util.Date;
 
+import next.CannotOperateException;
+
 public class Answer {
 	private long answerId;
 
@@ -24,6 +26,14 @@ public class Answer {
 		this.contents = contents;
 		this.createdDate = createdDate;
 		this.questionId = questionId;
+	}
+
+	public boolean isDeletable(Question q) throws CannotOperateException {
+		if (!this.writer.equals(q.getWriter())) {
+			throw new CannotOperateException("다른 사용자가 추가한 댓글이 존재해 삭제할 수 없습니다.");
+		}
+
+		return true;
 	}
 
 	public void setAnswerId(long answerId) {

@@ -1,6 +1,9 @@
 package next.model;
 
 import java.util.Date;
+import java.util.List;
+
+import next.CannotOperateException;
 
 public class Question {
 	private long questionId;
@@ -30,6 +33,21 @@ public class Question {
 		this.contents = contents;
 		this.createdDate = createdDate;
 		this.countOfComment = countOfComment;
+	}
+
+	public boolean isDeletable(User user, List<Answer> answers)
+			throws CannotOperateException {
+		if (!isSameUser(user)) {
+			throw new CannotOperateException("다른 사용자가 쓴 글을 삭제할 수 없습니다.");
+		}
+
+		for (Answer answer : answers) {
+			if (!answer.isDeletable(this)) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public long getQuestionId() {

@@ -2,6 +2,7 @@ package next.service;
 
 import java.util.List;
 
+import org.omg.CORBA.portable.UnknownException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 
@@ -38,30 +39,12 @@ public class QnaService {
 			throw new EmptyResultDataAccessException("존재하지 않는 질문입니다.", 1);
 		}
 
-		if (!question.isSameUser(user)) {
-			throw new CannotOperateException("다른 사용자가 쓴 글을 삭제할 수 없습니다.");
-		}
-
 		List<Answer> answers = answerDao.findAllByQuestionId(questionId);
-		if (answers.isEmpty()) {
+		if (question.isDeletable(user, answers)) {
 			questionDao.delete(questionId);
-			return;
+		} else {
+			throw new UnknownException(null);
 		}
-
-		boolean canDelete = true;
-		for (Answer answer : answers) {
-			String writer = question.getWriter();
-			if (!writer.equals(answer.getWriter())) {
-				canDelete = false;
-				break;
-			}
-		}
-
-		if (!canDelete) {
-			throw new CannotOperateException("다른 사용자가 추가한 댓글이 존재해 삭제할 수 없습니다.");
-		}
-
-		questionDao.delete(questionId);
 	}
 
 	public void updateQuestion(long questionId, Question newQuestion, User user)
