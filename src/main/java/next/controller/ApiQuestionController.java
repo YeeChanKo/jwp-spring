@@ -3,15 +3,6 @@ package next.controller;
 import java.util.List;
 import java.util.Map;
 
-import next.CannotOperateException;
-import next.dao.AnswerDao;
-import next.dao.QuestionDao;
-import next.model.Answer;
-import next.model.Question;
-import next.model.Result;
-import next.model.User;
-import next.service.QnaService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.Maps;
 
-import core.jdbc.DataAccessException;
 import core.web.argumentresolver.LoginUser;
+import next.CannotOperateException;
+import next.dao.AnswerDao;
+import next.dao.QuestionDao;
+import next.model.Answer;
+import next.model.Question;
+import next.model.Result;
+import next.model.User;
+import next.service.QnaService;
 
 @RestController
 @RequestMapping("/api/questions")
@@ -80,11 +78,7 @@ public class ApiQuestionController {
 			return Result.fail("다른 사용자가 쓴 글을 삭제할 수 없습니다.");
 		}
 
-		try {
-			answerDao.delete(answerId);
-			return Result.ok();
-		} catch (DataAccessException e) {
-			return Result.fail(e.getMessage());
-		}
+		answerDao.delete(answerId);
+		return Result.ok();
 	}
 }
