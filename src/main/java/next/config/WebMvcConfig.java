@@ -18,35 +18,37 @@ import core.web.argumentresolver.LoginUserHandlerMethodArgumentResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "next.controller" })
+@ComponentScan(basePackages = { "next.controller", "next.dao", "next.service",
+		"core.jdbc" })
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
-    private static final int CACHE_PERIOD = 31556926; // one year
-    
-    @Bean
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver bean = new InternalResourceViewResolver();
-        bean.setViewClass(JstlView.class);
-        bean.setPrefix("/WEB-INF/jsp/");
-        bean.setSuffix(".jsp");
-        return bean;
-    }
-    
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry
-            .addResourceHandler("/resources/**")
-                .addResourceLocations("/WEB-INF/static_resources/")
-                .setCachePeriod(CACHE_PERIOD);
-    }
-    
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-    	argumentResolvers.add(new LoginUserHandlerMethodArgumentResolver());
-    }
-    
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        // Serving static files using the Servlet container's default Servlet.
-        configurer.enable();
-    }    
+	private static final int CACHE_PERIOD = 31556926; // one year
+
+	@Bean
+	public ViewResolver viewResolver() {
+		InternalResourceViewResolver bean = new InternalResourceViewResolver();
+		bean.setViewClass(JstlView.class);
+		bean.setPrefix("/WEB-INF/jsp/");
+		bean.setSuffix(".jsp");
+		return bean;
+	}
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/resources/**")
+				.addResourceLocations("/WEB-INF/static_resources/")
+				.setCachePeriod(CACHE_PERIOD);
+	}
+
+	@Override
+	public void addArgumentResolvers(
+			List<HandlerMethodArgumentResolver> argumentResolvers) {
+		argumentResolvers.add(new LoginUserHandlerMethodArgumentResolver());
+	}
+
+	@Override
+	public void configureDefaultServletHandling(
+			DefaultServletHandlerConfigurer configurer) {
+		// Serving static files using the Servlet container's default Servlet.
+		configurer.enable();
+	}
 }
