@@ -19,7 +19,7 @@ import org.springframework.stereotype.Controller;
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(basePackages = {
-		"next", "next.aspect" }, excludeFilters = @ComponentScan.Filter(value = Controller.class, type = FilterType.ANNOTATION))
+		"next" }, excludeFilters = @ComponentScan.Filter(value = Controller.class, type = FilterType.ANNOTATION))
 @PropertySource("classpath:application.properties")
 public class AppConfig {
 	@Value("${db.driver.class}")

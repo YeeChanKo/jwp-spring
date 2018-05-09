@@ -30,10 +30,9 @@ public class ControllerTest {
 
 	@Test
 	public void askQuestion() {
-		String body = given().auth().preemptive().basic("admin", "password")
+		given().auth().preemptive().basic("admin", "password")
 				.contentType(ContentType.HTML).when().get("/questions/new")
-				.then().statusCode(HttpStatus.OK.value()).extract().asString();
-		log.debug("body : {}", body);
+				.then().statusCode(HttpStatus.OK.value());
 	}
 
 	@Test
